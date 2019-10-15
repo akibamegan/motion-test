@@ -102,7 +102,10 @@
 		</div> 
 		<div id=dm-info class=hidden> 
 			<p> Acceleration: (<span id=acceleration-x class=value>null</span>, <span id=acceleration-y class=value>null</span>, <span id=acceleration-z class=value>null</span>) m/s<sup>2</sup> </p> 
-			<div id="progressBar" class="" style="height:25px; width: 1%"></div>
+
+			<p> Max Movement: (<span id="max_aceleration_x" class="value">null</span>, <span id="max_aceleration_y" class="value">null</span>, <span id="max_aceleration_z" class="value">null</span>) m/s<sup>2</sup></p>
+
+			<div id="progressBar" class="progress" style="height:25px; width: 1%"></div>
 		</div> 
 	</div> 
 
@@ -126,14 +129,16 @@
 
 				if(event.acceleration.x > maxMovement_x){
 					maxMovement_x = event.acceleration.x;
+					document.getElementById('maxMovement_x').innerHTML = Math.round(maxMovement_x);
 				}
 				if(event.acceleration.y > maxMovement_y){
 					maxMovement_y = event.acceleration.y;
+					document.getElementById('maxMovement_y').innerHTML = Math.round(maxMovement_y);
 				}
 				if(event.acceleration.x > maxMovement_z){
-					maxMovement_z = event.acceleration.z;
+					maxMovement_z = event.acceleration.z;					
+					document.getElementById('maxMovement_z').innerHTML = Math.round(maxMovement_z);
 				}
-
 			});
 		}
 	</script>
