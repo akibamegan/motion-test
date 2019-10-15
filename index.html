@@ -129,15 +129,15 @@
 
 				if(event.acceleration.x > maxMovement_x){
 					maxMovement_x = event.acceleration.x;
-					document.getElementById('maxMovement_x').innerHTML = Math.round(maxMovement_x);
+					document.getElementById('maxMovement_x').innerHTML = Math.round(event.acceleration.x);
 				}
 				if(event.acceleration.y > maxMovement_y){
 					maxMovement_y = event.acceleration.y;
-					document.getElementById('maxMovement_y').innerHTML = Math.round(maxMovement_y);
+					document.getElementById('maxMovement_y').innerHTML = Math.round(event.acceleration.y);
 				}
 				if(event.acceleration.x > maxMovement_z){
 					maxMovement_z = event.acceleration.z;					
-					document.getElementById('maxMovement_z').innerHTML = Math.round(maxMovement_z);
+					document.getElementById('maxMovement_z').innerHTML = Math.round(event.acceleration.z);
 				}
 			});
 		}
