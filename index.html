@@ -106,55 +106,10 @@
 
 			<div id="progressBar" class="progress" style="height:25px; width: 1%"></div>
 		</div> 
-	</div> 
-
-	<!-- <script src="/socket.io/socket.io.js"></script> -->
+	</div>
+	<script type="text/javascript" src="index.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
 	<!-- <script src="https://code.jquery.com/jquery-1.11.1.js"></script> -->
-	<!-- <script src="node_modules/socket.io-client/dist/socket.io.js"></script> -->
-	<script>
-	// var socket = io();
-
-	function askPermission(){
-		if(typeof DeviceMotionEvent.requestPermission === 'function') {
-			DeviceMotionEvent.requestPermission()
-			.then(permissionState => {
-				if(permissionState === 'granted') {
-					window.addEventListener('devicemotion', () => {
-						// do something
-						if (!('ondevicemotion' in window)) {
-							document.getElementById('dm-unsupported').classList.remove('hidden');
-						} 
-						else {
-							document.getElementById('dm-info').classList.remove('hidden');
-
-							window.addEventListener('devicemotion', function(event) {
-								document.getElementById('acceleration-x').innerHTML = Math.round(event.acceleration.x);
-								document.getElementById('acceleration-y').innerHTML = Math.round(event.acceleration.y);
-								document.getElementById('acceleration-z').innerHTML = Math.round(event.acceleration.z);
-							});
-						}
-					});
-				}
-			})
-			.catch(console.error);
-		}
-		else {
-			// regular non ios 13 devices
-			document.getElementById('permissionButton').classList.add('hidden');
-			if (!('ondevicemotion' in window)) {
-				document.getElementById('dm-unsupported').classList.remove('hidden');
-			} 
-			else {
-				document.getElementById('dm-info').classList.remove('hidden');
-
-				window.addEventListener('devicemotion', function(event) {
-					document.getElementById('acceleration-x').innerHTML = Math.round(event.acceleration.x);
-					document.getElementById('acceleration-y').innerHTML = Math.round(event.acceleration.y);
-					document.getElementById('acceleration-z').innerHTML = Math.round(event.acceleration.z);
-				});
-			}
-		}
-	}
-</script>
+	<script src="node_modules/socket.io-client/dist/socket.io.js"></script>
 </body>
 </html>
