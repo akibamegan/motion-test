@@ -95,7 +95,7 @@
 	<!-- <span id=do-unsupported class="api-support hidden">deviceorientation event not supported</span>  -->
 	<span id=dm-unsupported class="api-support hidden">devicemotion event not supported</span> 
 	<!-- <span id=cnc-unsupported class="api-support hidden">compassneedscalibration event not supported</span>  -->
-	<button id="permissionButton" class="button hidden" onclick="askPermission()">Start</button>
+	<button id="permissionButton" class="button" onclick="askPermission()">Start</button>
 	<div id=do-results>
 		<div id=do-info class=hidden> 
 			<p> Coordinates: (<span id=beta class=value>null</span>, <span id=gamma class=value>null</span>, <span id=alpha class=value>null</span>) <br> Position absolute? <span id=is-absolute class=value>unavailable</span> 
@@ -121,7 +121,7 @@
 			DeviceMotionEvent.requestPermission()
 			.then(permissionState => {
 				if(permissionState === 'granted') {
-					document.getElementById('permissionButton').classList.remove('hidden');
+					// document.getElementById('permissionButton').classList.remove('hidden');
 					window.addEventListener('devicemotion', () => {
 						// do something
 						if (!('ondevicemotion' in window)) {
