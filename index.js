@@ -32,14 +32,18 @@ function captureAcceleration() {
 		document.getElementById('dm-info').classList.remove('hidden');
 
 		window.addEventListener('devicemotion', function(event) {
-			document.getElementById('acceleration-x').innerHTML = Math.round(event.acceleration.x);
+			if(Math.round(event.acceleration.x) > 1) {
+				document.getElementById('acceleration-x').innerHTML = Math.round(event.acceleration.x);
+				document.getElementById('alert-message').classList.remove('hidden');
+			}
 			document.getElementById('acceleration-y').innerHTML = Math.round(event.acceleration.y);
 			document.getElementById('acceleration-z').innerHTML = Math.round(event.acceleration.z);
+
 		});
 	}
 }
 
-function askPermission(){
+function askPermission() {
 	if(typeof DeviceMotionEvent.requestPermission === 'function') {
 		DeviceMotionEvent.requestPermission()
 		.then(permissionState => {
@@ -56,4 +60,10 @@ function askPermission(){
 			// regular non ios 13 devices
 			captureAcceleration();
 		}
-	}
+}
+
+
+
+
+
+
