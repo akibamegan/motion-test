@@ -104,8 +104,6 @@
 		<div id=dm-info class=hidden> 
 			<p> Acceleration: (<span id=acceleration-x class=value>null</span>, <span id=acceleration-y class=value>null</span>, <span id=acceleration-z class=value>null</span>) m/s<sup>2</sup> </p> 
 
-			<p> Max Movement: (<span id="max_aceleration_x" class="value">null</span>, <span id="max_aceleration_y" class="value">null</span>, <span id="max_aceleration_z" class="value">null</span>) m/s<sup>2</sup></p>
-
 			<div id="progressBar" class="progress" style="height:25px; width: 1%"></div>
 		</div> 
 	</div> 
@@ -121,7 +119,6 @@
 			DeviceMotionEvent.requestPermission()
 			.then(permissionState => {
 				if(permissionState === 'granted') {
-					// document.getElementById('permissionButton').classList.remove('hidden');
 					window.addEventListener('devicemotion', () => {
 						// do something
 						if (!('ondevicemotion' in window)) {
@@ -143,6 +140,19 @@
 		}
 		else {
 			// regular non ios 13 devices
+			document.getElementById('permissionButton').classList.add('hidden');
+			if (!('ondevicemotion' in window)) {
+				document.getElementById('dm-unsupported').classList.remove('hidden');
+			} 
+			else {
+				document.getElementById('dm-info').classList.remove('hidden');
+
+				window.addEventListener('devicemotion', function(event) {
+					document.getElementById('acceleration-x').innerHTML = Math.round(event.acceleration.x);
+					document.getElementById('acceleration-y').innerHTML = Math.round(event.acceleration.y);
+					document.getElementById('acceleration-z').innerHTML = Math.round(event.acceleration.z);
+				});
+			}
 		}
 	}
 </script>
