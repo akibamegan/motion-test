@@ -21,25 +21,31 @@ httpSocketServer.listen(3000, function(){
 });
 
 
+var x_preTotal, y_preTotal, z_preTotal = 0;
+var x_postTotal, y_postTotal, z_postTotal = 0;
 
+var moveMeWidth = 0;
 
-
-function captureAcceleration() {
+function captureMotion() {
 	if (!('ondevicemotion' in window)) {
 		document.getElementById('dm-unsupported').classList.remove('hidden');
 	} 
 	else {
-		document.getElementById('dm-info').classList.remove('hidden');
-
 		window.addEventListener('devicemotion', function(event) {
-			if(Math.round(event.acceleration.x) > 1) {
-				document.getElementById('acceleration-x').innerHTML = Math.round(event.acceleration.x);
-				document.getElementById('alert-message').classList.remove('hidden');
-			}
-			document.getElementById('acceleration-y').innerHTML = Math.round(event.acceleration.y);
-			document.getElementById('acceleration-z').innerHTML = Math.round(event.acceleration.z);
-
+			x_preTotal = event.acceleration.x;
+			y_preTotal = event.acceleration.y;
+			z_preTotal = event.acceleration.z;
 		});
+		setInterval(function(){
+			var diff = Math.abs(x_preTotal - x_postTotal + y_preTotal - y_postTotal + z_preTotal - z_postTotal);
+			if(diff > target) {
+				moveMe(moveMeWidth);
+			}
+			moveMeWidth = moveMeWidth + 10;
+			x_postTotal = x_preTotal;
+			y_postTotal = y_preTotal;
+			z_postTotal = z_preTotal;
+		}, 150);
 	}
 }
 
@@ -50,20 +56,33 @@ function askPermission() {
 			if(permissionState === 'granted') {
 				window.addEventListener('devicemotion', () => {
 						// do something
-						captureAcceleration();
+						captureMotion();
 					});
 			}
 		})
 		.catch(console.error);
 	}
 	else {
-			// regular non ios 13 devices
-			captureAcceleration();
-		}
+		// regular non ios 13 devices
+		captureMotion();
+	}
 }
 
+function moveMe(currentWidth) {
+	var elem = document.getElementById('myBar');
+	var width = currentWidth;
+	var widthIncrement = 10;
+	var id = setInterval(go, 25);
+	var totalWidthVal = width + widthIncrement;
 
-
-
-
-
+	function go(){
+		if(width >= totalWidthVal || width >= 100) {
+			clearInterval(id);
+		}
+		else{
+      		width++;
+      		elem.style.width = width + '%';
+      		elem.innerHTML = width * 1 + '%';
+    	}
+  	}
+}

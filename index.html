@@ -20,6 +20,14 @@
 		h1 {
 			text-align: center;
 		}
+		
+		.wholeProgressBar {
+			background: grey;
+		}
+
+		#myBar {
+			background: blue;
+		}
 
 		.api-support {
 			display: block;
@@ -31,22 +39,32 @@
 	</style> 
 </head> 
 <body> 
-<!-- 	<h1>device motion test</h1> -->
+	<!-- 	<h1>device motion test</h1> -->
 	<!-- <span id=do-unsupported class="api-support hidden">deviceorientation event not supported</span>  -->
 	<span id=dm-unsupported class="api-support hidden">devicemotion event not supported</span> 
 	<!-- <span id=cnc-unsupported class="api-support hidden">compassneedscalibration event not supported</span>  -->
 	<button id="permissionButton" class="button" onclick="askPermission()">Start</button>
+
 	<div id=do-results>
 		<div id=do-info class=hidden> 
 			<p> Coordinates: (<span id=beta class=value>null</span>, <span id=gamma class=value>null</span>, <span id=alpha class=value>null</span>) <br> Position absolute? <span id=is-absolute class=value>unavailable</span> 
 			</p> 
 		</div> 
+
 		<div id=dm-info class=hidden> 
-			<p> Acceleration: (<span id=acceleration-x class=value>null</span>, <span id=acceleration-y class=value>null</span>, <span id=acceleration-z class=value>null</span>) m/s<sup>2</sup> </p> 
-			<p class="hidden"> You're doing great!</p>
-			<div id="progressBar" class="progress" style="height:25px; width: 1%"></div>
+			<p> Acceleration: (<span id=acceleration-x class=value>null</span>, <span id=acceleration-y class=value>null</span>, <span id=acceleration-z class=value>null</span>) m/s<sup>2</sup> 
+			</p> 
+			
+			<p id="alert-message" class="hidden"> You're doing great!</p>
 		</div> 
+
+		<div class="wholeProgressBar">
+			<div id="myBar" class="partialProgressBarBlue" style="height:24px; width:0%"></div>
+		</div>
+		<p id="statusVal">0%</p>
+		<button id="moveme">click</button>
 	</div>
+
 	<script type="text/javascript" src="index.js"></script>
 	<script src="/socket.io/socket.io.js"></script>
 	<!-- <script src="https://code.jquery.com/jquery-1.11.1.js"></script> -->
