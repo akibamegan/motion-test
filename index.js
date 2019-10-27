@@ -1,32 +1,10 @@
-var socket = io();
-
-
-var app = require('express')();
-var httpSocketServer = require('http').createServer(app);
-var io = require('socket.io')(httpSocketServer);
-
-app.get('/', function(req, res){
-	res.sendFile('index.html', { root: __dirname });
-});
-
-io.on('connection', function(socket){
-	console.log('a user has connected');
-	socket.emit('alert', { message: 'someone has connected'});
-});
-
-
-// listens for socket connection
-httpSocketServer.listen(3000, function(){
-	console.log('listening on *:3000');
-});
-
-
 var x_preTotal, y_preTotal, z_preTotal = 0;
 var x_postTotal, y_postTotal, z_postTotal = 0;
 
 var moveMeWidth = 0;
 
 function captureMotion() {
+	var target = 20;
 	if (!('ondevicemotion' in window)) {
 		document.getElementById('dm-unsupported').classList.remove('hidden');
 	} 
@@ -55,9 +33,10 @@ function askPermission() {
 		.then(permissionState => {
 			if(permissionState === 'granted') {
 				window.addEventListener('devicemotion', () => {
-						// do something
-						captureMotion();
-					});
+					// do something
+
+					captureMotion();
+				});
 			}
 		})
 		.catch(console.error);
