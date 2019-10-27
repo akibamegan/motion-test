@@ -120,7 +120,7 @@
             	document.getElementById('acceleration-y').innerHTML = Math.round(event.acceleration.y);
             	document.getElementById('acceleration-z').innerHTML = Math.round(event.acceleration.z);
        		});
-			var target = 5; //threshold for movement
+			var target = 10; //threshold for movement
 			setInterval(function() {
 				var diff = Math.abs(x_pre - x_post + y_pre - y_post + z_pre - z_post);
 
