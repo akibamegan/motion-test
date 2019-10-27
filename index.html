@@ -14,15 +14,27 @@
 			max-width: 500px;
 			margin: 2em auto;
 			padding: 0 0.5em;
-			font-size: 20px;
+			font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
 		}
 
 		h1 {
 			text-align: center;
 		}
-		
+
+		#directions {
+			font-size: 1.1em;	
+		}
+
+		#permissionButton {
+			margin-bottom: 20px;
+			font-size: 1.1em;
+			border-radius: 15px;
+			padding: 10px 20px;
+		}
+
 		.wholeProgressBar {
 			background: grey;
+
 		}
 
 		#myBar {
@@ -39,12 +51,20 @@
 	</style> 
 </head> 
 <body> 
-	<!-- 	<h1>device motion test</h1> -->
-	<!-- <span id=do-unsupported class="api-support hidden">deviceorientation event not supported</span>  -->
-	<span id=dm-unsupported class="api-support hidden">devicemotion event not supported</span> 
-	<!-- <span id=cnc-unsupported class="api-support hidden">compassneedscalibration event not supported</span>  -->
-	<button id="permissionButton" class="button" onclick="askPermission()">Start</button>
+	<h1>Sedentary Solution: Time to Move!</h1>
 
+	<div id="directions">
+		<p>Press start when you're ready to begin tracking your activity. Make sure you're holding your phone when you move!</p>
+	</div>
+
+	<!-- API support -->
+	<span id=do-unsupported class="api-support hidden">deviceorientation event not supported</span> 
+	<span id=dm-unsupported class="api-support hidden">devicemotion event not supported</span> 
+
+	<!-- start button to trigger permissions -->
+	<button id="permissionButton" class="button">Start</button>
+
+	<!-- device orientation and motion results -->
 	<div id=do-results>
 		<div id=do-info class=hidden> 
 			<p> Coordinates: (<span id=beta class=value>null</span>, <span id=gamma class=value>null</span>, <span id=alpha class=value>null</span>) <br> Position absolute? <span id=is-absolute class=value>unavailable</span> 
@@ -54,18 +74,82 @@
 		<div id=dm-info class=hidden> 
 			<p> Acceleration: (<span id=acceleration-x class=value>null</span>, <span id=acceleration-y class=value>null</span>, <span id=acceleration-z class=value>null</span>) m/s<sup>2</sup> 
 			</p> 
-			
-			<p id="alert-message" class="hidden"> You're doing great!</p>
 		</div> 
-
-		<div class="wholeProgressBar">
-			<div id="myBar" class="partialProgressBarBlue" style="height:24px; width:0%"></div>
-		</div>
-		<p id="statusVal">0%</p>
-		<button id="moveme">click</button>
+	</div>
+	
+	<!-- action list of things to do to increase progress bar -->
+	<div id="actionList" class="hidden">
+		<ul>
+			<li>do 1 set of 10 jumping jacks</li>
+			<li>pretend to jump rope for 10 seconds</li>
+			<li>hop on one leg (each leg for 10 seconds)</li>
+			<li>run in place for 15 seconds</li>
+		</ul>
 	</div>
 
-	<script type="text/javascript" src="index.js"></script>
+	<!-- progress bar -->
+	<div id="wholeProgressBar" class="hidden">
+		<div id="myBar" class="partialProgressBar" style="height:24px; width:0%"></div>
+	</div>
+	<p id="statusVal" class="hidden">0%</p>
+
+	<script>
+		document.getElementById('permissionButton').addEventListener('click', function() {
+			alert('ask for permission');
+			document.getElementById('wholeProgressBar').classList.remove('hidden');
+			document.getElementById('statusVal').classList.remove('hidden');
+			document.getElementById('actionList').classList.remove('hidden');
+			document.getElementById('permissionButton').classList.add('hidden');			
+		});
+
+		var x_pre, y_pre, z_pre = 0;
+		var x_post, y_post, z_post = 0;
+
+		moveMeWidth = 0;
+
+		if (!('ondevicemotion' in window)) {
+			document.getElementById('dm-unsupported').classList.remove('hidden');
+		} 
+		else {
+			window.addEventListener('devicemotion', function(e) {
+				x_pre = event.acceleration.x;
+				y_pre = event.acceleration.y;
+				z_pre = event.acceleration.z;
+			});
+			var target = 20; //threshold for movement
+			setInterval(function() {
+				var diff = Math.abs(x_pre - x_post + y_pre - y_post + z_pre - z_post);
+				if(diff > target) {
+					moveMe(moveMeWidth);
+				}
+				moveMeWidth = moveMeWidth + 10;
+				x_post = x_pre;
+				y_post = y_pre;
+				z_post = z_pre;
+			}, 150);
+		}
+
+		function moveMe(value) {
+			var elem = document.getElementById('myBar');
+			var width = value;
+			var widthIncrement = 10;
+			var id = setInterval(go, 25);
+			var totalWidthVal = width + widthIncrement;
+
+			function go() {
+				if(width >= totalWidthVal || width >= 100) {
+					clearInterval(id);
+				}
+				else{
+					width++;
+					elem.style.width = width + '%';
+					elem.innerHTML = width * 1 + '%';
+				}
+			}
+		}
+
+	</script>
+	<!-- <script type="text/javascript" src="index.js"></script> -->
 	<script src="/socket.io/socket.io.js"></script>
 	<!-- <script src="https://code.jquery.com/jquery-1.11.1.js"></script> -->
 	<!-- <script src="node_modules/socket.io-client/dist/socket.io.js"></script> -->
