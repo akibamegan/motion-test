@@ -97,74 +97,7 @@
 	</div>
 	<p id="statusVal" class="hidden">0%</p>
 
-	<script>
-		document.getElementById('permissionButton').addEventListener('click', function() {
-			alert('ask for permission');
-			document.getElementById('wholeProgressBar').classList.remove('hidden');
-			document.getElementById('statusVal').classList.remove('hidden');
-			document.getElementById('actionList').classList.remove('hidden');
-			document.getElementById('permissionButton').classList.add('hidden');			
-		});
-
-		var x_pre, y_pre, z_pre = 0;
-		var x_post, y_post, z_post = 0;
-
-		moveMeWidth = 0;
-
-		if (!('ondevicemotion' in window)) {
-			document.getElementById('dm-unsupported').classList.remove('hidden');
-		} 
-		else {
-			document.getElementById('dm-info').classList.remove('hidden');
-			window.addEventListener('devicemotion', function(e) {
-				x_pre = event.acceleration.x;
-				y_pre = event.acceleration.y;
-				z_pre = event.acceleration.z;
-            	document.getElementById('acceleration-x').innerHTML = Math.round(event.acceleration.x);
-            	document.getElementById('acceleration-y').innerHTML = Math.round(event.acceleration.y);
-            	document.getElementById('acceleration-z').innerHTML = Math.round(event.acceleration.z);
-       		});
-			var target = 20; //threshold for movement
-			setInterval(function() {
-				var diff = Math.abs(x_pre - x_post + y_pre - y_post + z_pre - z_post);
-				if(diff > target) {
-					// alert("lots of movement!");
-					if(moveMeWidth < 100) {
-						moveMeWidth = moveMeWidth + 1;
-						document.getElementById('myBar').style.width = moveMeWidth + 1 + "%";
-						document.getElementById('statusVal').innerHTML = moveMeWidth + 1 + "%";
-					}
-					else {
-						alert('status bar filled 100 percent!')
-					}
-				}
-				x_post = x_pre;
-				y_post = y_pre;
-				z_post = z_pre;
-			}, 150);
-		}
-
-		function moveMe(value) {
-			var elem = document.getElementById('myBar');
-			var width = value;
-			var widthIncrement = 10;
-			var id = setInterval(go, 25);
-			var totalWidthVal = width + widthIncrement;
-
-			function go() {
-				if(width >= totalWidthVal || width >= 100) {
-					clearInterval(id);
-				}
-				else{
-					width++;
-					elem.style.width = width + '%';
-					elem.innerHTML = width * 1 + '%';
-				}
-			}
-		}
-
-	</script>
-	<!-- <script type="text/javascript" src="index.js"></script> -->
+	<script type="text/javascript" src="index.js"></script>
 	<script src="/socket.io/socket.io.js"></script>
 	<!-- <script src="https://code.jquery.com/jquery-1.11.1.js"></script> -->
 	<!-- <script src="node_modules/socket.io-client/dist/socket.io.js"></script> -->
