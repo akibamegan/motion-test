@@ -123,11 +123,9 @@
 			var target = 20; //threshold for movement
 			setInterval(function() {
 				var diff = Math.abs(x_pre - x_post + y_pre - y_post + z_pre - z_post);
-
 				if(diff > target) {
-					// moveMe(moveMeWidth);
-					// moveMeWidth = moveMeWidth + 10;
 					alert("lots of movement! target 20");
+					document.getElementById('myBar').style.width = moveMeWidth + 10 + "%";
 				}
 				x_post = x_pre;
 				y_post = y_pre;
