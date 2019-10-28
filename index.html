@@ -26,7 +26,7 @@
 			font-size: 1.1em;	
 		}
 
-		#permissionButton {
+		#permissionButton, #startButton {
 			margin-bottom: 20px;
 			font-size: 1.1em;
 			border-radius: 15px;
@@ -39,8 +39,11 @@
 		}
 
 		#myBar {
-			background: red;
-		}
+			background: rgb(180,58,58);
+			background: -webkit-linear-gradient(left, rgba(180,58,58,1) 0%, rgba(253,249,29,1) 50%, rgba(142,252,69,1) 100%);
+			background: -o-linear-gradient(left, rgba(180,58,58,1) 0%, rgba(253,249,29,1) 50%, rgba(142,252,69,1) 100%);
+			background: linear-gradient(to right, rgba(180,58,58,1) 0%, rgba(253,249,29,1) 50%, rgba(142,252,69,1) 100%);
+			}
 
 		.api-support {
 			display: block;
@@ -66,7 +69,8 @@
 	<span id=dm-unsupported class="api-support hidden">devicemotion event not supported</span> 
 
 	<!-- start button to trigger permissions -->
-	<button id="permissionButton" class="button" onclick="askPermission()">Start</button>
+	<button id="permissionButton" class="button" onclick="askPermission()">Ask For Permission</button>
+	<button id="startButton" class="button hidden">Start</button>
 
 	<!-- device orientation and motion results -->
 	<div id="do-results">
@@ -93,7 +97,7 @@
 
 	<!-- progress bar -->
 	<div id="wholeProgressBar" class="hidden">
-		<div id="myBar" class="partialProgressBar" style="height:24px; width:1%"></div>
+		<div id="myBar" class="partialProgressBar" style="height:30px; width:1%"></div>
 	</div>
 	<p id="statusVal" class="hidden">0%</p>
 

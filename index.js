@@ -1,6 +1,8 @@
 var flag = 0;
 
 function askPermission() {
+	document.getElementById('startButton').classList.remove('hidden');
+	document.getElementById('permissionButton').classList.add('hidden');			
 	if(typeof DeviceMotionEvent.requestPermission === 'function') {
 		DeviceMotionEvent.requestPermission()
 		.then(permissionState => {
@@ -19,12 +21,11 @@ function askPermission() {
 
 function start() {
 	if(flag == 1) {
-		document.getElementById('permissionButton').addEventListener('click', function() {
+		document.getElementById('startButton').addEventListener('click', function() {
 			// alert('ask for permission');
 			document.getElementById('wholeProgressBar').classList.remove('hidden');
 			document.getElementById('statusVal').classList.remove('hidden');
 			document.getElementById('actionList').classList.remove('hidden');
-			document.getElementById('permissionButton').classList.add('hidden');			
 		});
 
 		var x_pre, y_pre, z_pre = 0;
@@ -36,7 +37,7 @@ function start() {
 			document.getElementById('dm-unsupported').classList.remove('hidden');
 		} 
 		else {
-			document.getElementById('dm-info').classList.remove('hidden');
+			// document.getElementById('dm-info').classList.remove('hidden');
 			window.addEventListener('devicemotion', function(e) {
 				x_pre = event.acceleration.x;
 				y_pre = event.acceleration.y;
