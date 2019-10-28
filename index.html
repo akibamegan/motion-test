@@ -89,7 +89,7 @@
 
 	<!-- progress bar -->
 	<div id="wholeProgressBar" class="hidden">
-		<div id="myBar" class="partialProgressBar" style="height:24px; width:0%"></div>
+		<div id="myBar" class="partialProgressBar" style="height:24px; width:1%"></div>
 	</div>
 	<p id="statusVal" class="hidden">0%</p>
 
@@ -124,11 +124,11 @@
 			setInterval(function() {
 				var diff = Math.abs(x_pre - x_post + y_pre - y_post + z_pre - z_post);
 				if(diff > target) {
-					alert("lots of movement! target 20");
+					// alert("lots of movement!");
 					if(moveMeWidth < 100) {
-						moveMeWidth = moveMeWidth + 10;
-						document.getElementById('myBar').style.width = moveMeWidth + 10 + "%";
-						document.getElementById('statusVal').innerHTML = moveMeWidth + 10 + "%";
+						moveMeWidth = moveMeWidth + 1;
+						document.getElementById('myBar').style.width = moveMeWidth + 1 + "%";
+						document.getElementById('statusVal').innerHTML = moveMeWidth + 1 + "%";
 					}
 					else {
 						alert('status bar filled 100 percent!')
