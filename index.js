@@ -20,7 +20,7 @@ function askPermission() {
 function start() {
 	if(flag == 1) {
 		document.getElementById('permissionButton').addEventListener('click', function() {
-			alert('ask for permission');
+			// alert('ask for permission');
 			document.getElementById('wholeProgressBar').classList.remove('hidden');
 			document.getElementById('statusVal').classList.remove('hidden');
 			document.getElementById('actionList').classList.remove('hidden');
