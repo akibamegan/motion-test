@@ -125,9 +125,14 @@
 				var diff = Math.abs(x_pre - x_post + y_pre - y_post + z_pre - z_post);
 				if(diff > target) {
 					alert("lots of movement! target 20");
-					moveMeWidth = moveMeWidth + 10;
-					document.getElementById('myBar').style.width = moveMeWidth + 10 + "%";
-					document.getElementById('statusVal').innerHTML = moveMeWidth + 10 + "%";
+					if(moveMeWidth < 100) {
+						moveMeWidth = moveMeWidth + 10;
+						document.getElementById('myBar').style.width = moveMeWidth + 10 + "%";
+						document.getElementById('statusVal').innerHTML = moveMeWidth + 10 + "%";
+					}
+					else {
+						alert('status bar filled 100 percent!')
+					}
 				}
 				x_post = x_pre;
 				y_post = y_pre;
