@@ -47,18 +47,18 @@ function start() {
 				document.getElementById('acceleration-z').innerHTML = Math.round(event.acceleration.z);
 			});
 
-			var target = 20; //threshold for movement
+			var target = 25; //threshold for movement
 			setInterval(function() {
 				var diff = Math.abs(x_pre - x_post + y_pre - y_post + z_pre - z_post);
 				if(diff > target) {
 					// alert("lots of movement!");
-					if(moveMeWidth <= 100) {
+					if(moveMeWidth < 100) {
 						moveMeWidth = moveMeWidth + 1;
 						document.getElementById('myBar').style.width = moveMeWidth + 1 + "%";
 						document.getElementById('statusVal').innerHTML = moveMeWidth + 1 + "%";
 					}
 					else {
-						alert('status bar filled 100 percent! u did it!');
+						alert('Status bar filled 100 percent! You did it!');
 					}
 				}
 				x_post = x_pre;
