@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>client</title>
+	<style>
+		* {
+			-webkit-box-sizing: border-box;
+			-moz-box-sizing: border-box;
+			box-sizing: border-box;
+		}
+
+		body {
+			max-width: 500px;
+			margin: 2em auto;
+			padding: 0 0.5em;
+			font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+		}
+
+		h1 {
+			/*text-align: center;*/
+		}
+
+		#directions {
+			font-size: 1.1em;	
+		}
+
+		#permissionButton, #startButton {
+			margin-bottom: 20px;
+			font-size: 1.1em;
+			border-radius: 15px;
+			padding: 10px 20px;
+		}
+
+		.wholeProgressBar {
+			background: grey;
+		}
+
+		#myBar {
+			background: rgb(9,9,121);
+			background: -webkit-linear-gradient(left, rgba(9,9,121,1) 24%, rgba(0,123,255,1) 100%);
+			background: -o-linear-gradient(left, rgba(9,9,121,1) 24%, rgba(0,123,255,1) 100%);
+			background: linear-gradient(to right, rgba(9,9,121,1) 24%, rgba(0,123,255,1) 100%);
+		}
+
+		.hidden {
+			display: none;
+		}
+	</style> 
+</head>
+<body>
+	<h1>im the client page</h1>
+
+	<!-- API support -->
+	<!-- <span id=do-unsupported class="api-support hidden">deviceorientation event not supported</span>  -->
+	<span id=dm-unsupported class="api-support hidden">devicemotion event not supported</span> 
+
+	<!-- start button to trigger permissions -->
+	<button id="permissionButton" class="button">Ask For Permission</button>
+	<!-- <button id="startButton" class="button hidden">Start</button> -->
+
+	<!-- progress bar -->
+	<div id="wholeProgressBar">
+		<div id="myBar" class="partialProgressBar" style="height:30px; width:0%"></div>
+	</div>
+	<p id="statusVal">0%</p>
+
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="../js/client.js"></script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>host</title>
+	<style>
+		#directions {
+			font-size: 1.1em;	
+		}
+
+		#permissionButton, #startButton {
+			margin-bottom: 20px;
+			font-size: 1.1em;
+			border-radius: 15px;
+			padding: 10px 20px;
+		}
+
+		.wholeProgressBar {
+			background: grey;
+		}
+
+		#myBar {
+			background: rgb(9,9,121);
+			background: -webkit-linear-gradient(left, rgba(9,9,121,1) 24%, rgba(0,123,255,1) 100%);
+			background: -o-linear-gradient(left, rgba(9,9,121,1) 24%, rgba(0,123,255,1) 100%);
+			background: linear-gradient(to right, rgba(9,9,121,1) 24%, rgba(0,123,255,1) 100%);
+		}
+	</style>
+</head>
+<body>
+	<h1>im the host page</h1>
+
+	<!-- progress bar -->
+	<div id="wholeProgressBar">
+		<div id="myBar" class="partialProgressBar" style="height:30px; width:0%"></div>
+	</div>
+	<p id="statusVal">0%</p>
+
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="../js/host.js"></script>
+</body>
+</html>

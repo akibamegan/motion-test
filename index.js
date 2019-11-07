@@ -1,75 +1,57 @@
-var flag = 0;
+const express = require('express')
+const app = express();
 
-function askPermission() {
-	document.getElementById('startButton').classList.remove('hidden');
-	document.getElementById('permissionButton').classList.add('hidden');			
-	if(typeof DeviceMotionEvent.requestPermission === 'function') {
-		DeviceMotionEvent.requestPermission()
-		.then(permissionState => {
-			if(permissionState === 'granted') {
-				flag = 1;
-				start();
-			}
-		})
-		.catch(console.error);
-	}
-	else {
-		flag = 1;
-		start();
-	}
-}
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
+const port = process.env.PORT || 3000;
 
-function start() {
-	if(flag == 1) {
-		document.getElementById('startButton').addEventListener('click', function() {
-			// alert('ask for permission');
-			document.getElementById('wholeProgressBar').classList.remove('hidden');
-			document.getElementById('statusVal').classList.remove('hidden');
-			document.getElementById('actionList').classList.remove('hidden');
-		});
+server.listen(port, function(){
+	console.log('server is running on port ' + port);
+});
 
-		var x_pre, y_pre, z_pre = 0;
-		var x_post, y_post, z_post = 0;
+// client (for mobile)
+app.get('/', (req, res) => {
+	res.sendFile(__dirname + '/public/client/');
+});
 
-		moveMeWidth = 0;
+// host (for viewing on desktop)
+app.get('/host', (req, res) => {
+	res.sendFile(__dirname + '/public/host/');
+});
 
-		if (!('ondevicemotion' in window)) {
-			document.getElementById('dm-unsupported').classList.remove('hidden');
-		} 
-		else {
-			// document.getElementById('dm-info').classList.remove('hidden');
-			window.addEventListener('devicemotion', function(e) {
-				x_pre = event.acceleration.x;
-				y_pre = event.acceleration.y;
-				z_pre = event.acceleration.z;
-				document.getElementById('acceleration-x').innerHTML = Math.round(event.acceleration.x);
-				document.getElementById('acceleration-y').innerHTML = Math.round(event.acceleration.y);
-				document.getElementById('acceleration-z').innerHTML = Math.round(event.acceleration.z);
-			});
+app.use(express.static(__dirname + '/public/'));
 
-			var target = 25; //threshold for movement
-			setInterval(function() {
-				var diff = Math.abs(x_pre - x_post + y_pre - y_post + z_pre - z_post);
-				if(diff > target) {
-					// alert("lots of movement!");
-					if(moveMeWidth < 100) {
-						moveMeWidth = moveMeWidth + 1;
-						document.getElementById('myBar').style.width = moveMeWidth + 1 + "%";
-						document.getElementById('statusVal').innerHTML = moveMeWidth + 1 + "%";
-					}
-					else {
-						alert('Status bar filled 100 percent! You did it!');
-					}
-				}
-				x_post = x_pre;
-				y_post = y_pre;
-				z_post = z_pre;
-			}, 150);
-		}
-	} 
-	else {
-		alert('motion/orientation not supported');
-	}
-}
+var host = io.of('/public/host/');
+var client = io.of('/public/client/');
 
 
+//for every new socket connection
+client.on('connection', function(socket) {
+	console.log('new user connected: ' + socket.id);
+
+	// receiving message from THIS socket client
+	// emit message to the host to view on desktop
+	socket.on('increase', function(data){
+		console.log(data);
+		host.emit('increase', data);
+	});
+
+	socket.on('complete', function(data){
+		console.log(data);
+		host.emit('complete', data);
+	});
+
+	socket.on('updateVal', function(data){
+		console.log(data);
+		host.emit('updateVal', data);
+	})
+});
+
+
+// maxNumUsers = 2;
+// let numOfUsers = 0;
+// if(numOfUsers === maxNumUsers){
+// 	console.log('please wait, someone is logged on.');
+// 	socket.disconnect(true);
+// 	return;
+// }
